@@ -6,9 +6,9 @@ fn parse_line(line: &str, read_id: &mut u64, color_buf: &mut Vec<u64>){
     color_buf.clear();
 
     let tokens = line.split(' ').collect::<Vec<&str>>();
-    *read_id = tokens[0].parse::<u64>().unwrap();
+    *read_id = tokens[0].trim().parse::<u64>().unwrap();
     for &token in tokens.iter().skip(1) {
-        let color = token.parse::<u64>().unwrap();
+        let color = token.trim().parse::<u64>().unwrap();
         color_buf.push(color);
     }
 }
@@ -25,6 +25,8 @@ fn print_stats(input: &String, color_names: Option<&String>) {
     while reader.read_line(&mut line).unwrap() > 0{
         let mut read_id = 0_u64;
         parse_line(&line, &mut read_id, &mut color_buf);
+        line.clear();
+
         for color in color_buf.iter() {
             if *color > max_color_id {
                 max_color_id = *color;
